@@ -1,0 +1,60 @@
+(ns akiee.data-definitions)
+
+;; =================
+;; Data definitions:
+
+;; TaskState is one of
+;;  - TODO
+;;  - "DONE"
+;;  - "DOING"
+;;  - "NOTE"
+;; interp. as the state a task can have, "NOTE" means the task is a note
+
+#_
+(defn fnForTaskState [ts]
+  (cond
+   (= ts "TODO")   (...)
+   (= ts "DOING")  (...)
+   (= ts "DONE")   (...)
+   (= ts "NOTE")   (...)))
+
+;; Template rules used:
+;;  - one of: 3 cases
+;;  - atomic distinct: "TODO"
+;;  - atomic distinct: "DOING"
+;;  - atomic distinct: "DONE"
+;;  - atomic distinct: "NOTE"
+
+
+;; Node is a JavaScript Object
+;; interp. as a Task with properties:
+;; - key: unique key in markdown file
+;; - level: level in markdown structure
+;; - headline
+;; - body
+;; - tag: default null
+;; - tags default {}
+;; - todo: task state, default null
+;; - priority, default null
+;; - scheduled, default null
+;; - deadline, default null
+;; - drawer, default {}
+;; - rank: unique Ranking in File, default null
+
+(def node1 (js-obj))
+(def node2 (js-obj
+            "key" "orgNode_33.##",
+            "level" 2,
+            "headline" "As a user I want to change the state of a task with a simple action.",
+            "body" "",
+            "tag" null,
+            "tags" {},
+            "todo" "DOING",
+            "priority" null,
+            "scheduled" null,
+            "deadline" null,
+            "properties" {},
+            "drawer" {},
+            "rank" null))
+
+

@@ -1,0 +1,44 @@
+(ns akiee.app
+  (:require
+   [akiee.setup :as setup]
+   [akiee.data-definitions :as definitions]))
+
+;; main module for akiee.app
+
+;; =================
+;; Constants:
+
+(def gui (js/require "nw.gui"))
+(def fs (js/require "fs"))
+(def ace js/ace)
+
+(def WIN (.get (.-Window gui)))
+(def DOC js/document)
+(def ED (setup/setupAce "editor"))
+;; (def ES (.getSession ED))
+
+(def TODO "TODO")
+(def DONE "DONE")
+(def ALL "ALL")
+(def DOING "DOING")
+(def NOTE "NOTE")
+
+(def DEBUG true)
+
+;; =================
+;; Data definitions:
+
+
+;; =================
+;; Functions:
+
+;; WS -> WS
+;; start the world with ...
+;;
+;; (define (main ws)
+;;   (big-bang ws                   ; WS
+;;             (on-tick   tock)     ; WS -> WS
+;;             (to-draw   render)   ; WS -> Image
+;;             (stop-when ...)      ; WS -> Boolean
+;;             (on-mouse  ...)      ; WS Integer Integer MouseEvent -> WS
+;;             (on-key    ...)))    ; WS KeyEvent -> WS

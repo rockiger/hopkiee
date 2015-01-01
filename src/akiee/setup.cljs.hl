@@ -1,0 +1,23 @@
+(ns akiee.setup)
+;; setup module for akiee
+
+;; =================
+;; Constants:
+
+
+;; =================
+;; Data definitions:
+
+
+;; =================
+;; Functions:
+
+(defn setupAce
+  "String -> Editor-Object
+  consumes the id of an html element and setup the ace editor"
+  [el]
+  nil)
+
+(assert (= (setupAce "") nil))
+(assert (= (setupAce "urniaehna") nil))
+(assert (= (str (type (setupAce "editor"))) "function Object() { [native code] }"))
