@@ -38,7 +38,7 @@
             (button :type "button" :class "btn btn-default navbar-btn btn-state" :id "show-editor" :title "Ctrl+5 / Ctrl+Space" "Editor")
             (button :type "button" :class "btn btn-default navbar-btn navbar-right btn-square" :id "show-enterTask" :title "Ctrl+Enter"
                    (span :class "glyphicon glyphicon-plus")))))
-   (div :class "editor")
+   (div :id "editor")
    (div :id "enterTaskDiv" :class "container-fluid"
         (form :id "enterTask" :class"row"
               (div :class "col-xs-5"
@@ -54,3 +54,5 @@
                    (button :type "submit" :class "btn btn-default"  "Create")
                    (button :type "button" :class "btn btn-link" :id "cancel-enterTask" "Cancel"))))
    (table :id "list" :class "table" :tabindex "1")))
+
+(akiee.app/main)

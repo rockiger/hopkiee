@@ -6,7 +6,8 @@
   :project      'hopkiee
   :version      "0.1.0-SNAPSHOT"
   :dependencies '[[tailrecursion/boot.task   "2.2.4"]
-                  [tailrecursion/hoplon      "5.10.24"]]
+                  [tailrecursion/hoplon      "5.10.24"]
+                  [com.cemerick/clojurescript.test "0.3.3"]]
   :out-path     "resources/public"
   :src-paths    #{"src"})
 

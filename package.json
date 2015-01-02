@@ -1,5 +1,6 @@
 {
   "name": "hello-world",
   "version": "0.1.0",
-  "main": "./resources/public/index.html"
+  "main": "./resources/public/index.html",
+  "node-remote": "*"
 }

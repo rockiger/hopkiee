@@ -3,7 +3,9 @@
 
 ;; =================
 ;; Constants:
+(def fs (js/require "fs"))
 
+(def ace js/ace)
 
 ;; =================
 ;; Data definitions:
@@ -11,13 +13,44 @@
 
 ;; =================
 ;; Functions:
-
 (defn setupAce
   "String -> Editor-Object
   consumes the id of an html element and setup the ace editor"
   [el]
+  (let [editor (try
+                 (.edit ace el)
+                 (catch js/Object e (do
+                                      (.log js/console e)
+                                      nil)))
+        editor_session (.getSession editor)
+        currentFile (getTaskFile)
+        content (openFile editor currentFile)]
+    (if (nil? editor)
+      nil
+      (do
+        (.setTheme editor "ace/theme/chrome")
+        (.setMode editor_session "ace/mode/markdown")
+        (.setUseWrapMode editor_session true)
+;        (.watch fs currentFile reloadFile)  - Depends on getTaskFile and reloadFile
+        editor))))
+
+
+
+
+(defn getTaskFile
+  "Void -> String
+  return the path of the current file that holds the tasks"
+  []
   nil)
 
-(assert (= (setupAce "") nil))
-(assert (= (setupAce "urniaehna") nil))
-(assert (= (str (type (setupAce "editor"))) "function Object() { [native code] }"))
+(defn reloadFile
+  "Void -> Boolean
+  reloads the file content if the task file was changed by another programm"
+  []
+  nil)
+
+(defn openFile
+  "Editor-Object String -> String
+  consumes an editor object and a filepath and return the content of that file"
+  [editor filepath]
+  nil)
