@@ -1,19 +1,26 @@
 (ns akiee.setup)
 ;; setup module for akiee
+(enable-console-print!)
 
 ;; =================
 ;; Constants:
 (def fs (js/require "fs"))
+(def pro js/process)
+(def path (js/require "path"))
 
 (def ace js/ace)
+
+(def doc js/document)
+(def EDITOR (atom ""))
+(def CURRENT-FILE (atom ""))
 
 ;; =================
 ;; Data definitions:
 
-
 ;; =================
 ;; Functions:
-(defn setupAce
+
+(defn setup-ace
   "String -> Editor-Object
   consumes the id of an html element and setup the ace editor"
   [el]
@@ -22,35 +29,75 @@
                  (catch js/Object e (do
                                       (.log js/console e)
                                       nil)))
-        editor_session (.getSession editor)
-        currentFile (getTaskFile)
-        content (openFile editor currentFile)]
+        editor-session (.getSession editor)
+        current-file (task-file)
+        content (open-file editor current-file)]
     (if (nil? editor)
       nil
       (do
+        (println current-file)
+        (reset! EDITOR editor)
+        (reset! CURRENT-FILE current-file)
         (.setTheme editor "ace/theme/chrome")
-        (.setMode editor_session "ace/mode/markdown")
-        (.setUseWrapMode editor_session true)
-;        (.watch fs currentFile reloadFile)  - Depends on getTaskFile and reloadFile
+        (.setFontSize editor 16)
+        (.setMode editor-session "ace/mode/markdown")
+        (.setUseWrapMode editor-session true)
+;        (.watch fs current-file reload-File)  - Depends on task-file and reload-file
         editor))))
 
-
-
-
-(defn getTaskFile
+(defn task-file
   "Void -> String
   return the path of the current file that holds the tasks"
   []
-  nil)
+  (let [user-home (user-home)]
+    (do
+      (println user-home)
+      (liveflow-path user-home))))
 
-(defn reloadFile
-  "Void -> Boolean
-  reloads the file content if the task file was changed by another programm"
+(defn user-home
+  "Void -> String
+  returns the home directory of the user for his current platform"
   []
-  nil)
+  (if (= (.-platform pro) "win32")
+  	(.-USERPROFILE (.-env pro))
+  	(.-HOME (.-env pro))))
 
-(defn openFile
+(defn liveflow-path
+  "String -> String
+  consumes the home directory of the user and return the path to the liveflow file"
+  [user-home]
+  (let [conf-folder (.join path user-home "/.akiee/")
+        filename "liveflow.md"
+        filepath (.join path conf-folder filename)]
+    (if (.existsSync fs conf-folder)
+      (if (.existsSync fs filepath)
+        filepath
+        (do
+          (.writeFileSync fs filepath "")
+          filepath))
+      (do
+        (.mkdirSync(conf-folder))
+        (.writeFileSync fs filepath "")
+        filepath))))
+
+(defn open-file
   "Editor-Object String -> String
   consumes an editor object and a filepath and return the content of that file"
   [editor filepath]
-  nil)
+  (let [file-content (try
+                       (.readFileSync fs filepath "utf8")
+                       (catch js/Object e (do
+                                            (.log js/console e)
+                                            nil)))]
+    (do
+      (.setValue (.getSession editor) file-content)
+      (reset! CURRENT-FILE current-file)
+      file-content)))
+
+(defn reload-file
+  "Void -> Boolean
+  reloads the file content if the task file was changed by another programm"
+  []
+  (if (not (.hasFocus doc))
+    (do
+      (open-file @EDITOR @CURRENT-FILE))))

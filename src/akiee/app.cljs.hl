@@ -14,8 +14,9 @@
 
 (def WIN (.get (.-Window gui)))
 (def DOC js/document)
-;; (def ED (setup/setupAce "editor"))
+(def EDITOR setup/EDITOR)
 ;; (def ES (.getSession ED))
+(def CURRENT-FILE setup/CURRENT-FILE)
 
 (def TODO "TODO")
 (def DONE "DONE")
@@ -44,4 +45,4 @@
 ;;             (on-key    ...)))    ; WS KeyEvent -> WS
 
 (defn main []
-  (setup/setupAce "editor"))
+  (setup/setup-ace "editor"))
